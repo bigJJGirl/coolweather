@@ -1,6 +1,7 @@
 package com.coolweather.app.activity;
 
 import com.coolweather.app.R;
+import com.coolweather.app.service.AutoUpdateService;
 import com.coolweather.app.util.HttpCallbackListener;
 import com.coolweather.app.util.HttpUtil;
 import com.coolweather.app.util.Utility;
@@ -180,6 +181,12 @@ public class WeatherActivity extends Activity implements OnClickListener{
 		currentDateText.setText(prefs.getString("current_date", ""));
 		weatherInfoLayout.setVisibility(View.VISIBLE);
 		cityNameText.setVisibility(View.VISIBLE);
+		
+		//在 showWeather()方法的最后加入启动 AutoUpdateService 这个服务的代码，
+		//这样只要一旦选中了某个城市并成功更新天气之后，
+		//AutoUpdateService 就会一直在后台运行，并保证每 8 小时更新一次天气。
+		Intent intent = new Intent(this, AutoUpdateService.class);
+		startService(intent);
 		} 
 	}
 
